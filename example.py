@@ -1,4 +1,4 @@
-from oxijen import DatasetFactory
+from oxijen.model import DatasetFactory
 from pyoxigraph import Store, Literal
 
 dataset = DatasetFactory.create_dataset(Store())
