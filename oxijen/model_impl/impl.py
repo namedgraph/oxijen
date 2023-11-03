@@ -1,5 +1,5 @@
 from oxijen.rdf_model import Resource, Property, Graph, Dataset
-from pyoxigraph import Store, Triple, BlankNode, NamedNode, Literal, Quad
+from pyoxigraph import Store, Triple, BlankNode, NamedNode, Literal, Quad, DefaultGraph
 from typing import Iterator, Union, Optional
 
 class ResourceImpl(Resource):
@@ -74,6 +74,10 @@ class DatasetStoreImpl(Dataset):
     def __init__(self, store: Store):
         self.store = store
 
+    @property
+    def default_graph(self):
+        return GraphStoreImpl(self.store, DefaultGraph())
+    
     def graph_names(self) -> Iterator[Resource]:
         graph_names = self.store.named_graphs()
         

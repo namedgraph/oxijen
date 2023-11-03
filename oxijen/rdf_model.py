@@ -70,6 +70,10 @@ class GraphFactory:
 
 class Dataset(ABC):
 
+    @property
+    def default_graph(self):
+        pass
+    
     @abstractmethod
     def graph_names(self) -> Iterator[Resource]:
         pass
