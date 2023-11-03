@@ -47,11 +47,11 @@ class PropertyImpl(ResourceImpl, Property):
 
 class GraphImpl(Graph):
 
-    def create_resource(self) -> Resource:
-        return ResourceImpl(BlankNode(), self)
-
-    def create_resource(self, uri: str) -> Resource:
-        return ResourceImpl(NamedNode(uri), self)
+    def create_resource(self, uri: Optional[str] = None) -> Resource:
+        if uri is not None:
+            return ResourceImpl(NamedNode(uri), self)
+        else:
+            return ResourceImpl(BlankNode(), self)
 
     def create_property(self, uri: str) -> Property:
         return ResourceImpl(NamedNode(uri), self)

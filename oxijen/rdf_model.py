@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Iterator, Union
-from pyoxigraph import Store, Triple, Quad, Literal
+from typing import Iterator, Union, Optional
+from pyoxigraph import Store, Triple, Quad, Literal, NamedNode, BlankNode
 
 class Resource(ABC):
 
@@ -14,8 +14,18 @@ class Resource(ABC):
 
     @property
     def uri(self):
-        return self.node.value
-        
+        if isinstance(self.node, NamedNode):
+            return self.node.value
+        else:
+            return None
+
+    @property
+    def id(self):
+        if isinstance(self.node, BlankNode):
+            return self.node.value
+        else:
+            return None
+    
     @abstractmethod
     def add_property(self, property: 'Property', value: Union['Resource', Literal]) -> 'Resource':
         pass
@@ -37,11 +47,7 @@ class Property(Resource):
 class Graph(ABC):
 
     @abstractmethod
-    def create_resource(self) -> Resource:
-        pass
-
-    @abstractmethod
-    def create_resource(self, uri: str) -> Resource:
+    def create_resource(self, uri: Optional[str] = None) -> Resource:
         pass
 
     @abstractmethod

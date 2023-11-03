@@ -4,7 +4,7 @@ from pyoxigraph import Store, Literal
 dataset = DatasetFactory.create_dataset(Store())
 
 graph1 = dataset.get_named_graph("http://example.org/graph1")
-resource1 = graph1.create_resource("http://example.org/subject1")
+resource1 = graph1.create_resource()
 resource1.add_property(graph1.create_property("http://example.org/property1"), Literal("Object1"))
 resource1.add_property(graph1.create_property("http://example.org/property2"), graph1.create_resource("http://example.org/object"))
 
@@ -20,11 +20,23 @@ print(list(dataset.list_quads()))
 print("\ngraph1.list_triples():\n")
 print(list(graph1.list_triples()))
 
+print("\nresource1.uri:\n")
+print(resource1.uri)
+
+print("\nresource1.id:\n")
+print(resource1.id)
+
 print("\nresource1.list_properties():\n")
 print(list(resource1.list_properties()))
 
 print("\ngraph1.list_triples():\n")
 print(list(graph1.list_triples()))
+
+print("\nresource2.uri:\n")
+print(resource2.uri)
+
+print("\nresource2.id:\n")
+print(resource2.id)
 
 print("\nresource2.list_properties():\n")
 print(list(resource2.list_properties()))
