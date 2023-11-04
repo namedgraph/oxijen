@@ -69,6 +69,7 @@ class Graph(ABC):
     def add(self, triples: Union[Iterator[Triple], 'Graph']) -> 'Graph':
         pass
 
+
 class GraphFactory:
 
     #@staticmethod

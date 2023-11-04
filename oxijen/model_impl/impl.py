@@ -83,6 +83,7 @@ class GraphStoreImpl(GraphImpl):
 
         return self
 
+
 class DatasetStoreImpl(Dataset):
 
     def __init__(self, store: Store):
