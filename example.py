@@ -12,7 +12,7 @@ resource1.add_property(graph1.create_property("http://example.org/property2"), g
 
 graph2 = dataset.get_named_graph("http://example.org/graph2")
 resource2 = graph2.create_resource()
-resource2.add_property(graph2.create_property("http://example.org/property3"), graph2.create_literal("Object2"))
+resource2.add_property(graph2.create_property("http://example.org/property3"), graph2.create_literal("Object2", language="da"))
 resource3 = graph2.create_resource("http://example.org/subject3")
 resource3.add_property(graph2.create_property("http://example.org/property4"), graph2.create_literal("Object3"))
 

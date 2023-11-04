@@ -63,23 +63,26 @@ class GraphImpl(Graph):
     def create_property(self, uri: str) -> Property:
         return ResourceImpl(NamedNode(uri), self)
 
-    def create_literal(self, value: str) -> Literal:
-        return Literal(value) # should it be xsd:string-typed by default as per RDF 1.1?
+    def create_literal(self, value: str, language: Optional[str] = None) -> Literal:
+        return Literal(value, language=language) # should it be xsd:string-typed by default as per RDF 1.1?
 
-    def create_typed_literal(self, value: Any, type_uri: Optional[str] = None) -> Literal:
-        if type_uri is None:
+    def create_typed_literal(self, value: Any, datatype: Optional[Union[str, NamedNode]] = None) -> Literal:
+        if datatype is None:
             match value:
                 case int():
-                    type_uri = XSD.INTEGER.value
+                    datatype = NamedNode(XSD.INTEGER.value)
                 case str():
-                    type_uri = XSD.STRING.value
+                    datatype = NamedNode(XSD.STRING.value)
                 case float():
-                    type_uri = XSD.FLOAT.value
+                    datatype = NamedNode(XSD.FLOAT.value)
                 # TO-DO: support more types
                 case _:
                     raise TypeError('Unsupported type conversion')
+        else:
+            if type(datatype) is str:
+                datatype = NamedNode(datatype)
         
-        return Literal(str(value), datatype=NamedNode(type_uri))
+        return Literal(str(value), datatype=datatype)
 
 
 class GraphStoreImpl(GraphImpl):
@@ -103,6 +106,11 @@ class GraphStoreImpl(GraphImpl):
         quads = map(lambda triple: Quad(triple.subject, triple.predicate, triple.object, self.name), triples)
         self.store.extend(quads)
 
+        return self
+
+    def remove_all(self) -> 'Graph':
+        self.store.remove_graph(self.name)
+        
         return self
 
 

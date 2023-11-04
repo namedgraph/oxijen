@@ -66,11 +66,11 @@ class Graph(ABC):
         pass
 
     @abstractmethod
-    def create_literal(self, value: str) -> Literal:
+    def create_literal(self, value: str, language: Optional[str] = None) -> Literal:
         pass
 
     @abstractmethod
-    def create_typed_literal(self, value: Any, type_uri: Optional[str] = None) -> Literal:
+    def create_typed_literal(self, value: Any, datatype: Optional[Union[str, NamedNode]] = None) -> Literal:
         pass
 
     @abstractmethod
@@ -79,6 +79,10 @@ class Graph(ABC):
 
     @abstractmethod
     def add(self, triples: Union[Iterator[Triple], 'Graph']) -> 'Graph':
+        pass
+
+    @abstractmethod
+    def remove_all(self ) -> 'Graph':
         pass
 
 
