@@ -15,6 +15,7 @@ resource2 = graph2.create_resource()
 resource2.add_property(graph2.create_property("http://example.org/property3"), graph2.create_literal("Object2", language="da"))
 resource3 = graph2.create_resource("http://example.org/subject3")
 resource3.add_property(graph2.create_property("http://example.org/property4"), graph2.create_literal("Object3"))
+resource3.add_property(graph2.create_property("http://example.org/property5"), graph2.create_literal("Object4"))
 
 graph3 = dataset.get_named_graph("http://example.org/graph3")
 graph3.add(graph1)
@@ -51,6 +52,9 @@ print("\nresource1.list_properties():\n")
 output = io.BytesIO()
 serialize(list(resource1.list_properties()), output, "application/n-triples") # "application/n-quads" should work
 print(output.getvalue())
+
+print("\ngraph2.list_subjects():\n")
+print(list(graph2.list_subjects()))
 
 print("\ngraph2.list_triples():\n")
 output = io.BytesIO()

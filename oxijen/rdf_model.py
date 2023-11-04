@@ -74,6 +74,10 @@ class Graph(ABC):
         pass
 
     @abstractmethod
+    def list_subjects(self) -> Iterator[Resource]:
+        pass
+
+    @abstractmethod
     def list_triples(self) -> Iterator[Triple]:
         pass
 

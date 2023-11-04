@@ -9,6 +9,18 @@ class ResourceImpl(Resource):
         self._node = node
         self._graph = graph
 
+    def __hash__(self):
+        return hash(self.node.value)
+    
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.node.value == other.node.value
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
     def __str__(self) -> str:
         return self.node.__str__()
 
@@ -93,6 +105,9 @@ class GraphStoreImpl(GraphImpl):
 
     def __len__(self) -> int:
         return len(list(self.list_triples()))
+
+    def list_subjects(self) -> Iterator[Resource]:
+        return iter(set(map(lambda triple: ResourceImpl(triple.subject, self), self.list_triples())))
 
     def list_triples(self) -> Iterator[Triple]:
         quads = self.store.quads_for_pattern(None, None, None, self.name)
