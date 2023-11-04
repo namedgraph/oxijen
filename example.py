@@ -26,6 +26,12 @@ print(output.getvalue())
 print("\ndataset.graph_names():\n")
 print(list(dataset.graph_names()))
 
+print("\ndataset.contains_named_graph(\"http://example.org/graph2\"):\n")
+print(dataset.contains_named_graph("http://example.org/graph2"))
+
+print("\ndataset.contains_named_graph(\"http://example.org/non-existing\"):\n")
+print(dataset.contains_named_graph("http://example.org/non-existing"))
+
 print("\ngraph1.list_triples():\n")
 output = io.BytesIO()
 serialize(list(graph1.list_triples()), output, "application/n-triples") # "application/n-quads" should work

@@ -98,6 +98,14 @@ class DatasetStoreImpl(Dataset):
         
         return map(lambda name: ResourceImpl(name, None), graph_names)
 
+    def contains_named_graph(self, name: Union[str, Resource]) -> bool:
+        if type(name) is str:
+            name_node = NamedNode(name)
+        else:
+            name_node = name.node
+        
+        return self.store.contains_named_graph(name_node)
+
     def get_named_graph(self, name: Union[str, Resource]) -> Graph:
         if type(name) is str:
             name_node = NamedNode(name)

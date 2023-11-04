@@ -90,6 +90,10 @@ class Dataset(ABC):
         pass
 
     @abstractmethod
+    def contains_named_graph(self, name: Union[str, Resource]) -> bool:
+        pass
+
+    @abstractmethod
     def get_named_graph(self, name: Union[str, Resource]) -> Graph:
         pass
 
