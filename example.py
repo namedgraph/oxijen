@@ -23,6 +23,9 @@ output = io.BytesIO()
 serialize(list(dataset.list_quads()), output, "application/n-quads")
 print(output.getvalue())
 
+print("\ndataset.graph_names():\n")
+print(list(dataset.graph_names()))
+
 print("\ngraph1.list_triples():\n")
 output = io.BytesIO()
 serialize(list(graph1.list_triples()), output, "application/n-triples") # "application/n-quads" should work

@@ -13,6 +13,13 @@ class Resource(ABC):
         return self._graph
 
     @property
+    def is_anon(self):
+        if isinstance(self.node, NamedNode):
+            return False
+        else:
+            return True
+        
+    @property
     def uri(self):
         if isinstance(self.node, NamedNode):
             return self.node.value
@@ -87,6 +94,10 @@ class Dataset(ABC):
 
     @abstractmethod
     def add_named_graph(self, name: Union[str, Resource], graph: Graph) -> 'Dataset':
+        pass
+
+    @abstractmethod
+    def remove_named_graph(self, name: Union[str, Resource], graph: Graph) -> 'Dataset':
         pass
 
     @abstractmethod

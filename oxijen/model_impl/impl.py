@@ -8,6 +8,12 @@ class ResourceImpl(Resource):
         self._node = node
         self._graph = graph
 
+    def __str__(self) -> str:
+        return self.node.__str__()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
     def add_property(self, property: 'Property', value: Union[Resource, Literal]) -> 'Resource':
         if isinstance(value, Resource):
             value = value.node
@@ -110,5 +116,15 @@ class DatasetStoreImpl(Dataset):
 
         return self
 
+    def remove_named_graph(self, name: Union[str, Resource], graph: Graph) -> 'Dataset':
+        if type(name) is str:
+            name_node = NamedNode(name)
+        else:
+            name_node = name.node
+        
+        self.store.remove_graph(name_node)
+        
+        return self
+    
     def list_quads(self) -> Iterator[Quad]:
         return self.store.quads_for_pattern(None, None, None, None)
