@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Iterator, Union, Optional
+from typing import Iterator, Union, Optional, Any
 from pyoxigraph import Store, Triple, Quad, Literal, NamedNode, BlankNode
 
 class Resource(ABC):
@@ -54,11 +54,23 @@ class Property(Resource):
 class Graph(ABC):
 
     @abstractmethod
+    def __len__(self) -> int:
+        pass
+
+    @abstractmethod
     def create_resource(self, uri: Optional[str] = None) -> Resource:
         pass
 
     @abstractmethod
     def create_property(self, uri: str) -> Property:
+        pass
+
+    @abstractmethod
+    def create_literal(self, value: str) -> Literal:
+        pass
+
+    @abstractmethod
+    def create_typed_literal(self, value: Any, type_uri: Optional[str] = None) -> Literal:
         pass
 
     @abstractmethod

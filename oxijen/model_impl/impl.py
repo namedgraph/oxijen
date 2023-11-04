@@ -1,6 +1,7 @@
 from oxijen.rdf_model import Resource, Property, Graph, Dataset
+from oxijen.model_impl.xsd import XSD
 from pyoxigraph import Store, Triple, BlankNode, NamedNode, Literal, Quad, DefaultGraph
-from typing import Iterator, Union, Optional
+from typing import Iterator, Union, Optional, Any
 
 class ResourceImpl(Resource):
 
@@ -62,12 +63,33 @@ class GraphImpl(Graph):
     def create_property(self, uri: str) -> Property:
         return ResourceImpl(NamedNode(uri), self)
 
+    def create_literal(self, value: str) -> Literal:
+        return Literal(value) # should it be xsd:string-typed by default as per RDF 1.1?
+
+    def create_typed_literal(self, value: Any, type_uri: Optional[str] = None) -> Literal:
+        if type_uri is None:
+            match value:
+                case int():
+                    type_uri = XSD.INTEGER.value
+                case str():
+                    type_uri = XSD.STRING.value
+                case float():
+                    type_uri = XSD.FLOAT.value
+                # TO-DO: support more types
+                case _:
+                    raise TypeError('Unsupported type conversion')
+        
+        return Literal(str(value), datatype=NamedNode(type_uri))
+
 
 class GraphStoreImpl(GraphImpl):
 
     def __init__(self, store: Store, name: Union[BlankNode, NamedNode]):
         self.store = store
         self.name = name
+
+    def __len__(self) -> int:
+        return len(list(self.list_triples()))
 
     def list_triples(self) -> Iterator[Triple]:
         quads = self.store.quads_for_pattern(None, None, None, self.name)
