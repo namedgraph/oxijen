@@ -58,6 +58,9 @@ class Graph(ABC):
     def list_triples(self) -> Iterator[Triple]:
         pass
 
+    @abstractmethod
+    def add(self, triples: Union[Iterator[Triple], 'Graph']) -> 'Graph':
+        pass
 
 class GraphFactory:
 

@@ -68,6 +68,14 @@ class GraphStoreImpl(GraphImpl):
 
         return map(lambda quad: quad.triple, quads)
 
+    def add(self, triples: Union[Iterator[Triple], 'Graph']) -> 'Graph':
+        if isinstance(triples, Graph):
+            triples = triples.list_triples()
+
+        quads = map(lambda triple: Quad(triple.subject, triple.predicate, triple.object, self.name), triples)
+        self.store.extend(quads)
+
+        return self
 
 class DatasetStoreImpl(Dataset):
 
